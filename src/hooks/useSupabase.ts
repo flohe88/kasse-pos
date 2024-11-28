@@ -43,7 +43,7 @@ export const useArticles = () => {
 
   const updateArticle = async (id: string, updates: Partial<Article>) => {
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('articles')
         .update(updates)
         .eq('id', id)
