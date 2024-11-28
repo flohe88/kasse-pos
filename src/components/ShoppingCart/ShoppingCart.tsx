@@ -22,7 +22,8 @@ const ShoppingCart: React.FC = () => {
       total: total,
       payment_received: total,
       change_given: 0,
-      payment_method: 'cash'
+      payment_method: 'cash',
+      items: items
     }
 
     const sale = await createSale(saleData)

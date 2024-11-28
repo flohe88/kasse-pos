@@ -5,7 +5,7 @@ import { clearCart } from '../../store/cartSlice'
 import { useSales } from '../../hooks/useSupabase'
 
 const PaymentProcessor: React.FC = () => {
-  const { total } = useSelector((state: RootState) => state.cart)
+  const { total, items } = useSelector((state: RootState) => state.cart)
   const [paymentReceived, setPaymentReceived] = useState(0)
   const [paymentMethod, setPaymentMethod] = useState('cash')
   const dispatch = useDispatch()
@@ -25,7 +25,8 @@ const PaymentProcessor: React.FC = () => {
       total: total,
       payment_received: paymentReceived,
       change_given: changeAmount,
-      payment_method: paymentMethod
+      payment_method: paymentMethod,
+      items: items
     }
 
     const sale = await createSale(saleData)
