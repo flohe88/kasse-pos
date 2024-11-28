@@ -42,5 +42,11 @@ npm run dev
 ## Deployment
 Automatisches Deployment über GitHub Actions zu Netlify
 
+## Deployment Status
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/58da5a58-af85-4391-a5f2-d5fa6bb523d9/deploy-status)](https://app.netlify.com/sites/kasse-pos/deploys)
+
+This project is automatically deployed via Netlify and GitHub Actions.
+
 ## Lizenz
 MIT License
