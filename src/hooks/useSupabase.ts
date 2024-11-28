@@ -124,14 +124,28 @@ export const useSales = () => {
 
   const createSale = async (saleData: Omit<Sale, 'id' | 'created_at'>) => {
     try {
-      const { data, error } = await supabase
+      // Verkauf erstellen
+      const { data: saleResult, error: saleError } = await supabase
         .from('sales')
         .insert(saleData)
         .select()
+        .single()
 
-      if (error) throw error
-      setSales(prev => [...prev, data[0]])
-      return data[0]
+      if (saleError) throw saleError
+
+      // Sale-Items für diesen Verkauf erstellen
+      const saleItems = saleData.items.map(item => ({
+        ...item,
+        sale_id: saleResult.id
+      }))
+
+      const { error: saleItemsError } = await supabase
+        .from('sale_items')
+        .insert(saleItems)
+
+      if (saleItemsError) throw saleItemsError
+
+      return saleResult
     } catch (err: any) {
       setError(err.message)
       return null
