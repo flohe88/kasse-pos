@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
 import { clearCart } from '../../store/cartSlice'
 import { useSales } from '../../hooks/useSupabase'
+import { v4 as uuidv4 } from 'uuid'
+import { SaleItem } from '../../types'
 
 const PaymentProcessor: React.FC = () => {
   const { total, items } = useSelector((state: RootState) => state.cart)
@@ -21,12 +23,21 @@ const PaymentProcessor: React.FC = () => {
       return
     }
 
+    const saleItems: SaleItem[] = items.map(item => ({
+      id: uuidv4(),
+      sale_id: '', // wird von Supabase gesetzt
+      article_id: item.id,
+      quantity: item.quantity,
+      price_at_sale: item.price,
+      created_at: new Date().toISOString()
+    }))
+
     const saleData = {
       total: total,
       payment_received: paymentReceived,
       change_given: changeAmount,
       payment_method: paymentMethod,
-      items: items
+      items: saleItems
     }
 
     const sale = await createSale(saleData)
